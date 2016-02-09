@@ -10,26 +10,34 @@ namespace GithubUpdater
 {
     public class Github
     {
-        string _commandArg;
-        private string _workingDirectory;
+        private string _githubURL = "https://github.com/jonny561201/GithubUpdater";
+        private string _workingDirectory = "./";
 
-        public object Clone()
+        public string Clone()
         {
-            throw new NotImplementedException();
+            var cmd = "clone " + _githubURL;
+            return ExecuteCommand(cmd);
         }
 
 
-        public void ExecuteCommand()
+        private string ExecuteCommand(string commandArg)
         {
             using (var proc = new Process())
             {
-                var processStartInfo = new ProcessStartInfo("Git.exe", _commandArg)
+                var processStartInfo = new ProcessStartInfo("Git.exe", commandArg)
                 {
                     RedirectStandardOutput = true,
                     UseShellExecute = false,
                     RedirectStandardError = true,
                     WorkingDirectory = _workingDirectory
                 };
+
+                proc.StartInfo = processStartInfo;
+                proc.Start();
+                var result = proc.StandardOutput.ReadToEnd();
+                var errorResult = proc.StandardError.ReadToEnd();
+
+                return result + errorResult;
             }
         }
     }

@@ -10,12 +10,12 @@ namespace GithubUpdater
     [TestFixture]
     public class GithubTest
     {
-        private Github github = new Github();
+        private readonly Github github = new Github();
         [Test]
         public string ShouldPushToGithub()
         {
             var clone = github.Clone();
-            return "";
+            return clone;
         }
     }
 }
